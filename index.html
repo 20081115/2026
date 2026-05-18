@@ -13,30 +13,39 @@
       <div class="field">
         <label for="levelSelect">選擇難度：</label>
         <select id="levelSelect">
-          <option value="1">1. 1~10</option>
-          <option value="2">2. 1~50</option>
-          <option value="3">3. 1~100</option>
-          <option value="4">4. 1~500</option>
+          <option value="1">1. 1~5</option>
+          <option value="2">2. 1~10</option>
+          <option value="3">3. 1~20</option>
+          <option value="4">4. 1~50</option>
+          <option value="5">5. 1~100</option>
+          <option value="6">6. 1~200</option>
+          <option value="7">7. 1~500</option>
+          <option value="8">8. 1~1000</option>
+          <option value="9">9. 1~2000</option>
+          <option value="10">10. 1~5000</option>
         </select>
       </div>
       <div class="field">
-        <label for="modeSelect">選擇題型：</label>
-        <select id="modeSelect">
-          <option value="1">加減法</option>
-          <option value="2">乘除法</option>
-          <option value="3">混合題型</option>
+        <label for="themeSelect">選擇主題：</label>
+        <select id="themeSelect">
+          <option value="1">加法練習</option>
+          <option value="2">減法練習</option>
+          <option value="3">乘法練習</option>
+          <option value="4">除法練習</option>
+          <option value="5">四則混合</option>
+          <option value="6">乘法表</option>
         </select>
       </div>
-      <button id="startBtn">開始練習</button>
+      <button id="startBtn">開始 10 題測驗</button>
     </div>
 
     <div class="panel hidden" id="gamePanel">
       <div class="status-row">
         <div>已答對：<span id="score">0</span></div>
-        <div>出題數：<span id="rounds">0</span></div>
+        <div>進度：<span id="progress">0</span>/10</div>
       </div>
       <div class="question-box">
-        <div id="questionText">按「開始練習」出題</div>
+        <div id="questionText">按「開始 10 題測驗」出題</div>
       </div>
       <div class="field">
         <input type="text" id="answerInput" placeholder="輸入答案" autocomplete="off" />
