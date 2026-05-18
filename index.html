@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>數學練習遊戲</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>數學練習遊戲</h1>
+    <div class="panel" id="setupPanel">
+      <div class="field">
+        <label for="levelSelect">選擇難度：</label>
+        <select id="levelSelect">
+          <option value="1">1. 1~10</option>
+          <option value="2">2. 1~50</option>
+          <option value="3">3. 1~100</option>
+          <option value="4">4. 1~500</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="modeSelect">選擇題型：</label>
+        <select id="modeSelect">
+          <option value="1">加減法</option>
+          <option value="2">乘除法</option>
+          <option value="3">混合題型</option>
+        </select>
+      </div>
+      <button id="startBtn">開始練習</button>
+    </div>
+
+    <div class="panel hidden" id="gamePanel">
+      <div class="status-row">
+        <div>已答對：<span id="score">0</span></div>
+        <div>出題數：<span id="rounds">0</span></div>
+      </div>
+      <div class="question-box">
+        <div id="questionText">按「開始練習」出題</div>
+      </div>
+      <div class="field">
+        <input type="text" id="answerInput" placeholder="輸入答案" autocomplete="off" />
+      </div>
+      <button id="submitBtn">提交答案</button>
+      <div id="feedback"></div>
+      <div class="control-row">
+        <button id="nextBtn" class="secondary hidden">下一題</button>
+        <button id="resetBtn" class="secondary">重新開始</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
