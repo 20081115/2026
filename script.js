@@ -18,6 +18,8 @@ const LEVELS = {
   10: [1, 5000],
 };
 
+const QUIZ_LENGTH = 10;
+
 const startBtn = document.getElementById("startBtn");
 const submitBtn = document.getElementById("submitBtn");
 const nextBtn = document.getElementById("nextBtn");
@@ -30,8 +32,6 @@ const feedback = document.getElementById("feedback");
 const scoreDisplay = document.getElementById("score");
 const progressDisplay = document.getElementById("progress");
 
-const QUIZ_LENGTH = 10;
-
 let score = 0;
 let currentQuestion = 0;
 let currentAnswer = null;
@@ -43,27 +43,30 @@ function randomInt(min, max) {
 }
 
 function chooseOps(theme) {
-  if (theme === "1") return PROBLEMS.slice(0, 1);
-  if (theme === "2") return PROBLEMS.slice(1, 2);
-  if (theme === "3") return PROBLEMS.slice(2, 3);
-  if (theme === "4") return PROBLEMS.slice(3, 4);
+  if (theme === "1") return [PROBLEMS[0]];
+  if (theme === "2") return [PROBLEMS[1]];
+  if (theme === "3") return [PROBLEMS[2]];
+  if (theme === "4") return [PROBLEMS[3]];
   if (theme === "5") return PROBLEMS;
-  return [{ symbol: "*", fn: (a, b) => a * b }];
+  return [PROBLEMS[2]]; // 乘法表
+}
+
+function formatAnswer(value) {
+  return Number.isInteger(value) ? value : Number(value.toFixed(2));
 }
 
 function generateProblem() {
   const [min, max] = currentRange;
   const ops = chooseOps(currentTheme);
+  const { symbol, fn } = ops[Math.floor(Math.random() * ops.length)];
 
-  let symbol, fn, a, b;
+  let a;
+  let b;
 
   if (currentTheme === "6") {
-    symbol = "*";
-    fn = (x, y) => x * y;
     a = randomInt(1, Math.min(12, max));
     b = randomInt(1, Math.min(12, max));
   } else {
-    ({ symbol, fn } = ops[Math.floor(Math.random() * ops.length)]);
     a = randomInt(min, max);
     b = randomInt(min, max);
 
@@ -74,8 +77,7 @@ function generateProblem() {
     }
   }
 
-  const answer = fn(a, b);
-  currentAnswer = symbol === "/" ? parseFloat(answer.toFixed(2)) : answer;
+  currentAnswer = formatAnswer(fn(a, b));
   questionText.textContent = `${a} ${symbol} ${b} = ?`;
   answerInput.value = "";
   answerInput.focus();
@@ -104,21 +106,25 @@ function updateStatus() {
 
 function checkAnswer() {
   const raw = answerInput.value.trim();
-  if (!raw) {
+  if (raw === "") {
     feedback.textContent = "請輸入答案。";
     feedback.style.color = "#ffffff";
     return;
   }
 
-  const answer = parseFloat(raw);
-  const isCorrect = currentAnswer === parseFloat(answer.toFixed(2));
+  const answer = formatAnswer(parseFloat(raw));
+  if (Number.isNaN(answer)) {
+    feedback.textContent = "請輸入數字答案。";
+    feedback.style.color = "#ffffff";
+    return;
+  }
 
-  if (isCorrect) {
+  if (answer === currentAnswer) {
     score += 1;
     feedback.textContent = "答對了！";
     feedback.style.color = "#b9f6ca";
   } else {
-    feedback.textContent = `答案錯誤。正確答案：${currentAnswer}`;
+    feedback.textContent = `答案錯誤，正確答案：${currentAnswer}`;
     feedback.style.color = "#ff8a80";
   }
 
@@ -146,7 +152,8 @@ function nextQuestion() {
 function endGame() {
   feedback.textContent = `測驗結束！你答對 ${score} / ${QUIZ_LENGTH} 題。`;
   feedback.style.color = "#ffd966";
-  nextBtn.classList.add("hidden");
+  nextBtn.textContent = "重新開始";
+  nextBtn.classList.remove("hidden");
   submitBtn.disabled = true;
 }
 
